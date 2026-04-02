@@ -28,24 +28,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;JavaScript 调试.Search System.html.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript 调试.index.html.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Node.js.app.js.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/qiyin/Documents/GitHub/JCCConference-Services&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;C:/Users/qiyin/AppData/Roaming/JetBrains/PyCharm2025.3/node/versions/24.14.1/node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\qiyin\Documents\GitHub\JCCConference-Services" />
@@ -80,7 +63,7 @@
       <option name="presentableId" value="Default" />
       <updated>1775110578536</updated>
       <workItem from="1775110582914" duration="1043000" />
-      <workItem from="1775112890083" duration="8357000" />
+      <workItem from="1775112890083" duration="8889000" />
     </task>
     <servers />
   </component>
