@@ -5,163 +5,420 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2025年东北分公司总结会</title>
     <style>
-        :root { --primary: #2563eb; --success: #15803d; --error: #ef4444; --text-main: #1e293b; --text-sub: #64748b; }
+        :root {
+            --primary: #2563eb;
+            --success: #10b981;
+            --error: #ef4444;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, "PingFang SC", sans-serif; }
-        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background-attachment: fixed; }
-        .card { background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 380px; padding: 45px 24px 70px; border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); text-align: center; position: relative; display: none; animation: fadeIn 0.4s ease forwards; }
-        .card-logo { position: absolute; bottom: 20px; right: 24px; max-width: 65px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1)); opacity: 0.9; }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-attachment: fixed;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 380px;
+            padding: 40px 24px 60px;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            position: relative;
+            display: none;
+        }
+
+        .card-logo {
+            position: absolute;
+            bottom: 20px;
+            right: 24px;
+            max-width: 60px;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1));
+            opacity: 0.8;
+        }
+
         .hero-section { margin-bottom: 30px; }
-        .hero-main-img { width: 92%; height: auto; margin: 0 auto 18px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
-        .hero-subtitle { color: var(--text-main); font-size: 16px; margin-bottom: 8px; font-weight: 800; display: block; }
-        .hero-label { color: var(--primary); letter-spacing: 3px; font-size: 13px; font-weight: 700; display: block; }
-        input { display: block; width: 100%; padding: 18px; font-size: 16px; border: 2.5px solid #f1f5f9; border-radius: 18px; outline: none; background: #f8fafc; margin-bottom: 15px; text-align: center; }
-        button { display: block; width: 100%; padding: 16px; background: var(--primary); color: white; font-size: 18px; font-weight: 700; border: none; border-radius: 18px; cursor: pointer; box-shadow: 0 10px 20px -5px rgba(37,99,235,0.4); margin-bottom: 12px; }
-        .welcome-msg { color: var(--text-sub); font-size: 17px; margin: 20px 0 35px; }
-        #resNameBold { color: var(--text-main); font-weight: 900; font-size: 26px; border-bottom: 3px solid var(--primary); }
-        .seat-info-box { background: #f0fdf4; padding: 35px 15px; border-radius: 24px; margin-bottom: 35px; border: 2px solid #dcfce7; }
-        .seat-label { font-size: 16px; color: var(--success); display: block; margin-bottom: 15px; font-weight: 800; }
-        .seat-num { font-size: 52px; font-weight: 900; color: #166534; display: block; }
-        /* 调试提示样式 */
-        .status-tip { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; padding: 4px 10px; background: rgba(0,0,0,0.03); border-radius: 10px; display: inline-block; }
-        .error-msg { color: var(--error); font-size: 14px; margin-bottom: 15px; display: none; font-weight: 700; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero-main-img {
+            width: 90%;
+            height: auto;
+            margin: 0 auto 15px;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .hero-subtitle {
+            color: var(--text-main);
+            font-size: 15px;
+            margin-bottom: 10px;
+            font-weight: 800;
+            display: block;
+        }
+
+        .hero-label {
+            color: var(--primary);
+            letter-spacing: 3px;
+            font-size: 13px;
+            font-weight: 700;
+            display: block;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            border: 2.5px solid #f1f5f9;
+            border-radius: 16px;
+            outline: none;
+            background: #f8fafc;
+            margin-bottom: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        input:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px -5px rgba(37,99,235,0.4);
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        button:active { transform: scale(0.96); }
+
+        .welcome-msg {
+            color: var(--text-sub);
+            font-size: 16px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        #resNameBold {
+            color: var(--text-main);
+            font-weight: 900;
+            font-size: 24px;
+            margin: 0 2px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .seat-info-box {
+            background: #f0fdf4;
+            padding: 35px 15px;
+            border-radius: 24px;
+            margin-bottom: 30px;
+            border: 1px solid #dcfce7;
+            display: block;
+        }
+        .seat-label {
+            font-size: 16px;
+            color: #15803d;
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .seat-num { font-size: 52px; font-weight: 900; color: var(--success); display: block; letter-spacing: 2px; }
+
+        .btn-schedule { background: var(--text-main); }
+
+        .schedule-list { text-align: left; margin: 25px 0; }
+        .schedule-item { display: flex; padding: 14px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); }
+        .time { font-weight: 800; color: var(--primary); min-width: 95px; font-size: 14px; }
+        .event { color: var(--text-main); font-size: 14px; font-weight: 500; }
+
+        .error-msg { color: var(--error); font-size: 13px; margin-bottom: 15px; display: none; font-weight: 600; }
+        .reset-link { margin-top: 20px; font-size: 13px; color: var(--primary); cursor: pointer; text-decoration: underline; display: inline-block; font-weight: 600; }
+
+        .fade-in { animation: fadeIn 0.4s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <!-- 1. 签到页 -->
-    <div id="signinPage" class="card" style="display: block;">
+    <div id="signinPage" class="card fade-in" style="display: block;">
         <div class="hero-section">
-            <img src="main_title.png" alt="主标题" class="hero-main-img">
+            <img src="main_title.png" alt="我们一起创造伟大" class="hero-main-img">
             <span class="hero-subtitle">2025年东北分公司总结会</span>
-            <!-- 调试信息位置 -->
-            <div id="status" class="status-tip">正在同步参会名单...</div>
             <span class="hero-label">签到确认 · SIGN IN</span>
         </div>
+
         <div style="margin-top: 10px;">
             <input type="text" id="nameInput" placeholder="请输入姓名进行签到" autocomplete="off">
-            <div id="errorMsg" class="error-msg">未找到该姓名，请检查输入或联系行政</div>
-            <button id="signBtn" disabled style="opacity:0.5">请稍候...</button>
+            <div id="errorMsg" class="error-msg">未找到名单信息，请联系行政现场核实</div>
+            <button onclick="handleSignin()">立即签到</button>
         </div>
         <img src="logo.png" alt="Logo" class="card-logo">
     </div>
 
-    <!-- 2. 结果页 -->
-    <div id="resultPage" class="card">
+    <div id="resultPage" class="card fade-in">
         <p class="welcome-msg">欢迎您来，<span id="resNameBold">--</span></p>
         <div class="seat-info-box">
             <span class="seat-label">您的会议座次</span>
             <span class="seat-num" id="resSeat">--</span>
         </div>
-        <button style="background: var(--text-main);" id="toScheduleBtn">查看大会日程</button>
-        <span style="margin-top:20px; font-size:14px; color:var(--primary); cursor:pointer; text-decoration:underline; display:inline-block;" onclick="location.reload()">返回重新签到</span>
+        <button class="btn-schedule" onclick="showPage('schedulePage')">查看大会日程</button>
+        <span class="reset-link" onclick="showPage('signinPage')">返回重新签到</span>
         <img src="logo.png" alt="Logo" class="card-logo">
     </div>
 
-    <!-- 3. 日程页 -->
-    <div id="schedulePage" class="card">
-        <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 25px;">大会日程</h2>
-        <div id="scheduleContent" style="text-align: left; margin: 20px 0 30px; font-size: 15px;"></div>
-        <button id="backToResultBtn">返回座次信息</button>
+    <div id="schedulePage" class="card fade-in">
+        <h2 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">大会日程</h2>
+        <div class="schedule-list">
+            <div class="schedule-item"><span class="time">08:30-09:00</span><span class="event">嘉宾签到入场</span></div>
+            <div class="schedule-item"><span class="time">09:00-09:30</span><span class="event">开场视频与致辞</span></div>
+            <div class="schedule-item"><span class="time">09:30-11:30</span><span class="event">2024年度总结报告</span></div>
+            <div class="schedule-item"><span class="time">11:30-13:30</span><span class="event">午休及商务午宴</span></div>
+            <div class="schedule-item"><span class="time">13:30-15:30</span><span class="event">2025战略发布会</span></div>
+            <div class="schedule-item"><span class="time">15:30-17:00</span><span class="event">颁奖盛典</span></div>
+        </div>
+        <button onclick="showPage('resultPage')">返回个人信息</button>
         <img src="logo.png" alt="Logo" class="card-logo">
     </div>
 
     <script>
-        // 使用 DOMContentLoaded 确保页面元素加载完毕后再执行脚本
-        document.addEventListener('DOMContentLoaded', function() {
-            let seatData = {};
-            const signBtn = document.getElementById('signBtn');
-            const nameInput = document.getElementById('nameInput');
-            const statusTip = document.getElementById('status');
-            const errorMsg = document.getElementById('errorMsg');
+        // 自动从 CSV 提取的完整名单数据
+        const seatData = {
+            "刘凤兰": "1桌1号",
+            "王敏": "1桌2号",
+            "石长娥": "1桌3号",
+            "刘亚萍": "1桌4号",
+            "程龙新": "1桌5号",
+            "彭刚": "1桌6号",
+            "孙荔": "1桌7号",
+            "潘晶": "1桌8号",
+            "付宏宇": "1桌9号",
+            "金搏涵": "1桌10号",
+            "朱保卫": "2桌1号",
+            "谢水泉": "2桌2号",
+            "李桂娟": "2桌3号",
+            "顾复军": "2桌4号",
+            "耿灵": "2桌5号",
+            "李艳": "2桌6号",
+            "赵洪侠": "2桌7号",
+            "张巍": "2桌8号",
+            "邱万东": "2桌9号",
+            "马玉兰": "2桌10号",
+            "陆秀杰": "3桌1号",
+            "陈连杰": "3桌2号",
+            "崔红": "3桌3号",
+            "回国强": "3桌4号",
+            "黄海波": "3桌5号",
+            "张东敏": "3桌6号",
+            "喻明伟": "3桌7号",
+            "安桂荣": "3桌8号",
+            "田静辉": "3桌9号",
+            "滕岩": "3桌10号",
+            "李龙滨": "4桌1号",
+            "颜妮": "4桌2号",
+            "汤玉梅": "4桌3号",
+            "李凤杰": "4桌4号",
+            "张丽荣": "4桌5号",
+            "李锦平": "4桌6号",
+            "关杰": "4桌7号",
+            "李影": "4桌8号",
+            "解春丽": "4桌9号",
+            "陈丽颖": "4桌10号",
+            "张静": "5桌1号",
+            "王静荣": "5桌2号",
+            "李东明": "5桌3号",
+            "王志东": "5桌4号",
+            "宋国庆": "5桌5号",
+            "张咏梅": "5桌6号",
+            "沈文翠": "5桌7号",
+            "倪红": "5桌8号",
+            "王海艳": "5桌9号",
+            "李俊香": "5桌10号",
+            "蔡诗林": "6桌1号",
+            "李龙阁": "6桌2号",
+            "于秀敏": "6桌3号",
+            "丁一": "6桌4号",
+            "赵丽丽": "6桌5号",
+            "王巍巍": "6桌6号",
+            "范金立": "6桌7号",
+            "张丽敏": "6桌8号",
+            "张桂艳": "6桌9号",
+            "鞠红香": "6桌10号",
+            "李强": "7桌1号",
+            "李杰": "7桌2号",
+            "张瑜": "7桌3号",
+            "于江洋": "7桌4号",
+            "刘泽平": "7桌5号",
+            "孙娟": "7桌6号",
+            "孔金玲": "7桌7号",
+            "吴素平": "7桌8号",
+            "邱红": "7桌9号",
+            "凌萍": "7桌10号",
+            "魏斌": "8桌1号",
+            "魏海波": "8桌2号",
+            "年洪英": "8桌3号",
+            "车丽华": "8桌4号",
+            "王秀珍": "8桌5号",
+            "邹吉鑫": "8桌6号",
+            "刘红": "8桌7号",
+            "贾丹": "8桌8号",
+            "李琳": "8桌9号",
+            "李月红": "8桌10号",
+            "陈慧富": "9桌1号",
+            "赵立梅": "9桌2号",
+            "刘伟杰": "9桌3号",
+            "陈岗": "9桌4号",
+            "崔仁杰": "9桌5号",
+            "高延玲": "9桌6号",
+            "盛勇": "9桌7号",
+            "闫丹": "9桌8号",
+            "刘志娟": "9桌9号",
+            "边丽丽": "9桌10号",
+            "邱桂荣": "10桌1号",
+            "包乃学": "10桌2号",
+            "耿凤玲": "10桌3号",
+            "刘敏": "10桌4号",
+            "刘月": "10桌5号",
+            "邹吉国": "10桌6号",
+            "刘瑞艳": "10桌7号",
+            "李月波": "10桌8号",
+            "吝新静": "10桌9号",
+            "靳建平": "10桌10号",
+            "孙颖": "11桌1号",
+            "李红辉": "11桌2号",
+            "平安静": "11桌3号",
+            "刘会英": "11桌4号",
+            "邹世丹": "11桌5号",
+            "慕小华": "11桌6号",
+            "刘岩平": "11桌7号",
+            "宋吉清": "11桌8号",
+            "张忠信": "11桌9号",
+            "崔淑华": "11桌10号",
+            "董珊珊": "12桌1号",
+            "李希举": "12桌2号",
+            "高明": "12桌3号",
+            "徐文华": "12桌4号",
+            "李丽秋": "12桌5号",
+            "王锦梅": "12桌6号",
+            "魏秀英": "12桌7号",
+            "王丽梅": "12桌8号",
+            "刘波": "12桌9号",
+            "祁琪": "12桌10号",
+            "付艳英": "13桌1号",
+            "闫广利": "13桌2号",
+            "刘丽娜": "13桌3号",
+            "马术玲": "13桌4号",
+            "李金凤": "13桌5号",
+            "王晓茜": "13桌6号",
+            "孙晓新": "13桌7号",
+            "石丽丽": "13桌8号",
+            "尹路": "13桌9号",
+            "韩义": "13桌10号",
+            "夏金钟": "14桌1号",
+            "于春红": "14桌2号",
+            "于春国": "14桌3号",
+            "张召荣": "14桌4号",
+            "李臣": "14桌5号",
+            "闫法": "14桌6号",
+            "郑玉光": "14桌7号",
+            "白桂元": "14桌8号",
+            "来庆华": "14桌9号",
+            "(无)": "14桌10号",
+            "张玉琦": "15桌1号",
+            "罗宇": "15桌2号",
+            "王亚荣": "15桌3号",
+            "解亚芹": "15桌4号",
+            "谢朝红": "15桌5号",
+            "雷振球": "15桌6号",
+            "吴涛": "15桌7号",
+            "刘威": "15桌8号",
+            "王秀丽": "15桌9号",
+            "梁美思": "15桌10号",
+            "翁冬菊": "16桌1号",
+            "胡楠": "16桌2号",
+            "姜明兴": "16桌3号",
+            "杨起孟": "16桌4号",
+            "于丽": "16桌5号",
+            "陈佩新": "16桌6号",
+            "魏巍": "16桌7号",
+            "汤连祎": "16桌8号",
+            "王迪": "16桌9号",
+            "姜焕宇": "16桌10号",
+            "马壮": "17桌1号",
+            "郑月": "17桌2号",
+            "刘佳慧": "17桌3号",
+            "赵晓航": "17桌4号",
+            "刘玮": "17桌5号",
+            "沈洁": "17桌6号",
+            "李鑫": "17桌7号",
+            "林萍": "17桌8号",
+            "王均智": "17桌9号",
+            "付楚佳": "17桌10号",
+            "魏明丽": "18桌1号",
+            "张晓明": "18桌2号",
+            "石坚": "18桌3号",
+            "张玉": "18桌4号",
+            "徐新": "18桌5号",
+            "翟翟": "18桌6号",
+            "许娜": "18桌7号",
+            "徐佳辉": "18桌8号",
+            "李昊宸": "18桌9号",
+            "宝智国": "18桌10号",
+            "吴丽娜": "19桌1号",
+            "杜晓东": "19桌2号",
+            "马琳": "19桌3号",
+            "陈婷婷": "19桌4号",
+            "黄晴晴": "19桌5号",
+            "王诗元": "19桌6号",
+            "赵嘉朕": "19桌7号",
+            "佟丹": "19桌8号",
+            "(空)": "19桌10号"
+        };
 
-            // 1. 异步加载 CSV 名单
-            fetch('list.csv?v=' + Date.now())
-                .then(res => {
-                    if (!res.ok) throw new Error('找不到名单文件 list.csv');
-                    return res.text();
-                })
-                .then(text => {
-                    // 清理隐藏字符并按行切割
-                    const rows = text.replace(/\r/g, '').split('\n');
-                    let validCount = 0;
+        function showPage(pageId) {
+            document.querySelectorAll('.card').forEach(p => p.style.display = 'none');
+            document.getElementById(pageId).style.display = 'block';
+        }
 
-                    rows.forEach((row, i) => {
-                        if (i === 0 || !row.trim()) return; // 跳过表头和空行
+        function handleSignin() {
+            const input = document.getElementById('nameInput');
+            const name = input.value.trim();
+            const error = document.getElementById('errorMsg');
 
-                        // 兼容多种分隔符：英文逗号、中文逗号、Tab、空格
-                        const cols = row.split(/[,，\t\s]+/);
-
-                        if (cols.length >= 2) {
-                            // 强力清洗姓名（去 BOM 头、去空格）
-                            const name = cols[0].replace(/[\uFEFF]/g, "").trim();
-                            const seat = cols[1].trim();
-
-                            // 排除分割线和无效字符
-                            if (name && name !== "---" && name !== "姓名") {
-                                seatData[name] = seat;
-                                validCount++;
-                            }
-                        }
-                    });
-
-                    // 更新调试信息和按钮状态
-                    statusTip.innerText = "✅ 名单同步成功 (共计 " + validCount + " 人)";
-                    signBtn.disabled = false;
-                    signBtn.style.opacity = "1";
-                    signBtn.innerText = "立即签到";
-                    console.log("名单载入成功:", seatData);
-                })
-                .catch(err => {
-                    statusTip.innerText = "❌ 加载失败: " + err.message;
-                    statusTip.style.color = "var(--error)";
-                    console.error("名单加载错误:", err);
-                });
-
-            // 2. 签到匹配逻辑
-            window.handleSignin = function() {
-                const inputName = nameInput.value.replace(/\s+/g, ""); // 去掉输入的所有空格
-
-                if (seatData[inputName]) {
-                    document.getElementById('resNameBold').innerText = inputName;
-                    document.getElementById('resSeat').innerText = seatData[inputName];
-                    showPage('resultPage');
-                    errorMsg.style.display = 'none';
+            if (seatData[name]) {
+                document.getElementById('resNameBold').innerText = name;
+                document.getElementById('resSeat').innerText = seatData[name];
+                error.style.display = 'none';
+                showPage('resultPage');
+            } else {
+                if (name === "") {
+                    alert("请输入姓名");
                 } else {
-                    errorMsg.style.display = 'block';
-                    errorMsg.innerText = "未找到“" + inputName + "”，请联系行政";
+                    error.style.display = 'block';
                 }
-            };
-
-            // 3. 页面切换函数
-            function showPage(id) {
-                document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
-                document.getElementById(id).style.display = 'block';
             }
+        }
 
-            // 4. 事件监听
-            signBtn.addEventListener('click', handleSignin);
-            nameInput.addEventListener('keypress', e => {
-                if (e.key === 'Enter') handleSignin();
-            });
-            document.getElementById('toScheduleBtn').addEventListener('click', () => showPage('schedulePage'));
-            document.getElementById('backToResultBtn').addEventListener('click', () => showPage('resultPage'));
-
-            // 5. 日程数据填充
-            const schedule = [
-                ["08:30-09:00", "嘉宾签到入场"],
-                ["09:00-09:30", "开场视频与致辞"],
-                ["09:30-11:30", "2024年度总结报告"],
-                ["11:30-13:30", "午休及商务午宴"],
-                ["13:30-15:30", "2025战略发布会"],
-                ["15:30-17:00", "颁奖盛典"]
-            ];
-            document.getElementById('scheduleContent').innerHTML = schedule.map(s =>
-                `<div style="display: flex; padding: 12px 0; border-bottom: 1px dashed #ddd;">
-                    <span style="color:var(--primary); font-weight:800; min-width:95px;">${s[0]}</span>
-                    <span>${s[1]}</span>
-                </div>`
-            ).join('');
+        document.getElementById('nameInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSignin();
         });
     </script>
 </body>
