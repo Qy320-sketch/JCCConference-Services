@@ -10,20 +10,20 @@
         body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background-attachment: fixed; }
         .card { background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 380px; padding: 45px 24px 70px; border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); text-align: center; position: relative; display: none; animation: fadeIn 0.4s ease forwards; }
         .card-logo { position: absolute; bottom: 20px; right: 24px; max-width: 65px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1)); opacity: 0.9; }
-        .hero-section { margin-bottom: 35px; }
+        .hero-section { margin-bottom: 30px; }
         .hero-main-img { width: 92%; height: auto; margin: 0 auto 18px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
         .hero-subtitle { color: var(--text-main); font-size: 16px; margin-bottom: 8px; font-weight: 800; display: block; }
         .hero-label { color: var(--primary); letter-spacing: 3px; font-size: 13px; font-weight: 700; display: block; }
         input { display: block; width: 100%; padding: 18px; font-size: 16px; border: 2.5px solid #f1f5f9; border-radius: 18px; outline: none; background: #f8fafc; margin-bottom: 15px; text-align: center; }
-        button { display: block; width: 100%; padding: 16px; background: var(--primary); color: white; font-size: 18px; font-weight: 700; border: none; border-radius: 18px; cursor: pointer; box-shadow: 0 10px 20px -5px rgba(37,99,235,0.4); margin-bottom: 12px; transition: 0.2s; }
+        button { display: block; width: 100%; padding: 16px; background: var(--primary); color: white; font-size: 18px; font-weight: 700; border: none; border-radius: 18px; cursor: pointer; box-shadow: 0 10px 20px -5px rgba(37,99,235,0.4); margin-bottom: 12px; }
         .welcome-msg { color: var(--text-sub); font-size: 17px; margin: 20px 0 35px; }
         #resNameBold { color: var(--text-main); font-weight: 900; font-size: 26px; border-bottom: 3px solid var(--primary); }
         .seat-info-box { background: #f0fdf4; padding: 35px 15px; border-radius: 24px; margin-bottom: 35px; border: 2px solid #dcfce7; }
         .seat-label { font-size: 16px; color: var(--success); display: block; margin-bottom: 15px; font-weight: 800; }
         .seat-num { font-size: 52px; font-weight: 900; color: #166534; display: block; }
-        .status-tip { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; }
+        /* 调试提示样式 */
+        .status-tip { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; padding: 4px 10px; background: rgba(0,0,0,0.03); border-radius: 10px; display: inline-block; }
         .error-msg { color: var(--error); font-size: 14px; margin-bottom: 15px; display: none; font-weight: 700; }
-        .reset-link { margin-top: 25px; font-size: 14px; color: var(--primary); cursor: pointer; text-decoration: underline; display: inline-block; font-weight: 600; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -34,107 +34,13 @@
         <div class="hero-section">
             <img src="main_title.png" alt="主标题" class="hero-main-img">
             <span class="hero-subtitle">2025年东北分公司总结会</span>
+            <!-- 调试信息位置 -->
+            <div id="status" class="status-tip">正在同步参会名单...</div>
             <span class="hero-label">签到确认 · SIGN IN</span>
         </div>
-        <div id="status" class="status-tip">正在同步参会名单...</div>
         <div style="margin-top: 10px;">
             <input type="text" id="nameInput" placeholder="请输入姓名进行签到" autocomplete="off">
-            <div id="errorMsg" class="error-msg">未找到您的信息，请重试</div>
+            <div id="errorMsg" class="error-msg">未找到该姓名，请检查输入或联系行政</div>
             <button id="signBtn" disabled style="opacity:0.5">请稍候...</button>
         </div>
-        <img src="logo.png" alt="Logo" class="card-logo">
-    </div>
-
-    <!-- 2. 结果页 -->
-    <div id="resultPage" class="card">
-        <p class="welcome-msg">欢迎您来，<span id="resNameBold">--</span></p>
-        <div class="seat-info-box">
-            <span class="seat-label">您的会议座次</span>
-            <span class="seat-num" id="resSeat">--</span>
-        </div>
-        <button style="background: var(--text-main);" id="toScheduleBtn">查看大会日程</button>
-        <span class="reset-link" onclick="location.reload()">返回重新签到</span>
-        <img src="logo.png" alt="Logo" class="card-logo">
-    </div>
-
-    <!-- 3. 日程页 -->
-    <div id="schedulePage" class="card">
-        <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 25px;">大会日程</h2>
-        <div id="scheduleContent" style="text-align: left; margin: 20px 0 30px; font-size: 15px;"></div>
-        <button id="backToResultBtn">返回座次信息</button>
-        <img src="logo.png" alt="Logo" class="card-logo">
-    </div>
-
-    <script>
-        // 确保所有元素加载后再运行
-        document.addEventListener('DOMContentLoaded', function() {
-            let seatData = {};
-            const signBtn = document.getElementById('signBtn');
-            const nameInput = document.getElementById('nameInput');
-            const statusTip = document.getElementById('status');
-            const errorMsg = document.getElementById('errorMsg');
-
-            // 载入名单逻辑
-            fetch('list.csv?v=' + Date.now())
-                .then(res => {
-                    if (!res.ok) throw new Error('找不到 list.csv');
-                    return res.text();
-                })
-                .then(text => {
-                    const rows = text.replace(/\r/g, '').split('\n');
-                    rows.forEach((row, i) => {
-                        if (i === 0 || !row.trim()) return;
-                        const cols = row.split(/[,，\t]/);
-                        if (cols.length >= 2) {
-                            const name = cols[0].replace(/[\uFEFF]/g, "").trim();
-                            const seat = cols[1].trim();
-                            if (name && name !== "---") seatData[name] = seat;
-                        }
-                    });
-                    statusTip.innerText = "✅ 名单同步完成 (" + Object.keys(seatData).length + "人)";
-                    signBtn.disabled = false;
-                    signBtn.style.opacity = "1";
-                    signBtn.innerText = "立即签到";
-                })
-                .catch(err => {
-                    statusTip.innerText = "❌ 加载失败: " + err.message;
-                });
-
-            // 签到逻辑
-            window.handleSignin = function() {
-                const inputName = nameInput.value.replace(/\s+/g, "");
-                if (seatData[inputName]) {
-                    document.getElementById('resNameBold').innerText = inputName;
-                    document.getElementById('resSeat').innerText = seatData[inputName];
-                    showPage('resultPage');
-                    errorMsg.style.display = 'none';
-                } else {
-                    errorMsg.style.display = 'block';
-                }
-            };
-
-            // 页面切换
-            function showPage(id) {
-                document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
-                document.getElementById(id).style.display = 'block';
-            }
-
-            // 事件绑定
-            signBtn.addEventListener('click', handleSignin);
-            nameInput.addEventListener('keypress', e => { if (e.key === 'Enter') handleSignin(); });
-            document.getElementById('toScheduleBtn').addEventListener('click', () => showPage('schedulePage'));
-            document.getElementById('backToResultBtn').addEventListener('click', () => showPage('resultPage'));
-
-            // 填充日程内容
-            const schedule = [
-                ["08:30-09:00", "嘉宾签到入场"], ["09:00-09:30", "开场视频与致辞"],
-                ["09:30-11:30", "2024年度总结报告"], ["11:30-13:30", "午休及商务午宴"],
-                ["13:30-15:30", "2025战略发布会"], ["15:30-17:00", "颁奖盛典"]
-            ];
-            document.getElementById('scheduleContent').innerHTML = schedule.map(s =>
-                `<div style="display: flex; padding: 12px 0; border-bottom: 1px dashed #ddd;"><span style="color:var(--primary); font-weight:800; min-width:95px;">${s[0]}</span><span>${s[1]}</span></div>`
-            ).join('');
-        });
-    </script>
-</body>
-</html>
+        <img src="logo.png" alt="
