@@ -1,36 +1,248 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>会议座次实时查询</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2025年东北分公司总结会</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #10b981;
+            --error: #ef4444;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, "PingFang SC", sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-attachment: fixed;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 380px;
+            padding: 40px 24px 60px; /* 底部增加 padding 留给右下角 logo */
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            position: relative;
+            display: none;
+        }
+
+        /* 核心修改：Logo 统一固定在所有卡片的右下角 */
+        .card-logo {
+            position: absolute;
+            bottom: 20px;
+            right: 24px;
+            max-width: 60px;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1));
+            opacity: 0.8;
+        }
+
+        .hero-section { margin-bottom: 30px; }
+
+        .hero-main-img {
+            width: 90%;
+            height: auto;
+            margin: 0 auto 15px;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        /* 核心修改：总结会部分加粗 */
+        .hero-subtitle {
+            color: var(--text-main);
+            font-size: 15px;
+            margin-bottom: 10px;
+            font-weight: 800; /* 加粗 */
+            display: block;
+        }
+
+        /* 核心修改：签到确认挪到最下方 */
+        .hero-label {
+            color: var(--primary);
+            letter-spacing: 3px;
+            font-size: 13px;
+            font-weight: 700;
+            display: block;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            border: 2.5px solid #f1f5f9;
+            border-radius: 16px;
+            outline: none;
+            background: #f8fafc;
+            margin-bottom: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        input:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px -5px rgba(37,99,235,0.4);
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        button:active { transform: scale(0.96); }
+
+        .welcome-msg {
+            color: var(--text-sub);
+            font-size: 16px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        #resNameBold {
+            color: var(--text-main);
+            font-weight: 900;
+            font-size: 22px;
+            margin: 0 2px;
+        }
+
+        .seat-info-box {
+            background: #f0fdf4;
+            padding: 30px 15px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #dcfce7;
+            display: block;
+        }
+        .seat-label {
+            font-size: 15px;
+            color: #15803d;
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .seat-num { font-size: 46px; font-weight: 900; color: var(--success); display: block; letter-spacing: 2px; }
+
+        .btn-schedule { background: var(--text-main); }
+
+        .schedule-list { text-align: left; margin: 25px 0; }
+        .schedule-item { display: flex; padding: 14px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); }
+        .time { font-weight: 800; color: var(--primary); min-width: 95px; font-size: 14px; }
+        .event { color: var(--text-main); font-size: 14px; font-weight: 500; }
+
+        .error-msg { color: var(--error); font-size: 13px; margin-bottom: 15px; display: none; font-weight: 600; }
+        .reset-link { margin-top: 20px; font-size: 13px; color: var(--primary); cursor: pointer; text-decoration: underline; display: inline-block; font-weight: 600; }
+
+        .fade-in { animation: fadeIn 0.4s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="title">参会座次查询</div>
+    <!-- 1. 签到主页 -->
+    <div id="signinPage" class="card fade-in" style="display: block;">
+        <div class="hero-section">
+            <img src="main_title.png" alt="我们一起创造伟大" class="hero-main-img">
+            <!-- 调整顺序：总结会（加粗）在上，签到确认在下 -->
+            <span class="hero-subtitle">2025年东北分公司总结会</span>
+            <span class="hero-label">签到确认 · SIGN IN</span>
+        </div>
 
-    <div class="input-group">
-      <input type="text" id="userName" placeholder="请输入您的姓名" autocomplete="off">
+        <div style="margin-top: 10px;">
+            <input type="text" id="nameInput" placeholder="请输入姓名进行签到" autocomplete="off">
+            <div id="errorMsg" class="error-msg">未找到名单信息，请检查姓名</div>
+            <button onclick="handleSignin()">立即签到</button>
+        </div>
+        <!-- Logo 挪到右下角 -->
+        <img src="logo.png" alt="ANTA Logo" class="card-logo">
     </div>
 
-    <button onclick="doSearch()">立即查询</button>
-
-    <div id="errorBox" class="error-box">未找到该姓名，请核对后重新输入</div>
-
-    <div id="resultBox" class="result-box">
-      <div class="result-text">
-        尊敬的 <span id="resName"></span>，您的位置：
-        <span id="resSeat" class="seat-num"></span>
-      </div>
+    <!-- 2. 结果页面 -->
+    <div id="resultPage" class="card fade-in">
+        <p class="welcome-msg">欢迎您来，<span id="resNameBold">--</span></p>
+        <div class="seat-info-box">
+            <span class="seat-label">您的会议座次</span>
+            <span class="seat-num" id="resSeat">--</span>
+        </div>
+        <button class="btn-schedule" onclick="showPage('schedulePage')">查看大会日程</button>
+        <span class="reset-link" onclick="showPage('signinPage')">返回重新签到</span>
+        <!-- Logo 挪到右下角 -->
+        <img src="logo.png" alt="ANTA Logo" class="card-logo">
     </div>
-  </div>
 
-  <div class="footer">
-    请按座次号就坐 · 祝您参会愉快
-  </div>
+    <!-- 3. 日程页面 -->
+    <div id="schedulePage" class="card fade-in">
+        <h2 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">大会日程</h2>
+        <div class="schedule-list">
+            <div class="schedule-item"><span class="time">08:30-09:00</span><span class="event">嘉宾签到入场</span></div>
+            <div class="schedule-item"><span class="time">09:00-09:30</span><span class="event">开场视频与致辞</span></div>
+            <div class="schedule-item"><span class="time">09:30-11:30</span><span class="event">2024年度总结报告</span></div>
+            <div class="schedule-item"><span class="time">11:30-13:30</span><span class="event">午休及商务午宴</span></div>
+            <div class="schedule-item"><span class="time">13:30-15:30</span><span class="event">2025战略发布会</span></div>
+            <div class="schedule-item"><span class="time">15:30-17:00</span><span class="event">颁奖盛典</span></div>
+        </div>
+        <button onclick="showPage('resultPage')">返回个人信息</button>
+        <!-- Logo 挪到右下角 -->
+        <img src="logo.png" alt="ANTA Logo" class="card-logo">
+    </div>
 
-  <script src="js/app.js"></script>
+    <script>
+        const seatData = {
+            "李红辉": "11桌2号",
+            "张三": "1桌5号",
+            "李四": "2桌3号",
+            "王五": "5桌1号"
+        };
+
+        function showPage(pageId) {
+            document.querySelectorAll('.card').forEach(p => p.style.display = 'none');
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        function handleSignin() {
+            const input = document.getElementById('nameInput');
+            const name = input.value.trim();
+            const error = document.getElementById('errorMsg');
+
+            if (seatData[name]) {
+                document.getElementById('resNameBold').innerText = name;
+                document.getElementById('resSeat').innerText = seatData[name];
+                error.style.display = 'none';
+                showPage('resultPage');
+            } else {
+                if (name === "") {
+                    alert("请输入姓名");
+                } else {
+                    error.style.display = 'block';
+                }
+            }
+        }
+
+        document.getElementById('nameInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSignin();
+        });
+    </script>
 </body>
 </html>
