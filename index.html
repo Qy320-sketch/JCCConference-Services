@@ -5,117 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2025年东北分公司总结会</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --success: #15803d; /* 深绿色，更显庄重 */
-            --error: #ef4444;
-            --text-main: #1e293b;
-            --text-sub: #64748b;
-        }
-
+        :root { --primary: #2563eb; --success: #15803d; --error: #ef4444; --text-main: #1e293b; --text-sub: #64748b; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, "PingFang SC", sans-serif; }
-
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background-attachment: fixed;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            width: 100%;
-            max-width: 380px;
-            padding: 45px 24px 70px; /* 底部留足空间给 Logo */
-            border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            text-align: center;
-            position: relative;
-            display: none;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        /* Logo 统一固定在所有卡片的右下角 */
-        .card-logo {
-            position: absolute;
-            bottom: 20px;
-            right: 24px;
-            max-width: 65px;
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1));
-            opacity: 0.9;
-        }
-
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background-attachment: fixed; }
+        .card { background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 380px; padding: 45px 24px 70px; border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); text-align: center; position: relative; display: none; animation: fadeIn 0.4s ease forwards; }
+        .card-logo { position: absolute; bottom: 20px; right: 24px; max-width: 65px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1)); opacity: 0.9; }
         .hero-section { margin-bottom: 35px; }
         .hero-main-img { width: 92%; height: auto; margin: 0 auto 18px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
-
-        /* 总结会名称加粗 */
-        .hero-subtitle {
-            color: var(--text-main);
-            font-size: 16px;
-            margin-bottom: 8px;
-            font-weight: 800;
-            display: block;
-        }
-
-        /* 签到确认挪到下方 */
-        .hero-label {
-            color: var(--primary);
-            letter-spacing: 3px;
-            font-size: 13px;
-            font-weight: 700;
-            display: block;
-        }
-
-        input {
-            display: block; width: 100%; padding: 18px; font-size: 16px; border: 2.5px solid #f1f5f9;
-            border-radius: 18px; outline: none; background: #f8fafc; margin-bottom: 15px; text-align: center;
-        }
-        input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
-
-        button {
-            display: block; width: 100%; padding: 16px; background: var(--primary); color: white;
-            font-size: 18px; font-weight: 700; border: none; border-radius: 18px; cursor: pointer;
-            box-shadow: 0 10px 20px -5px rgba(37,99,235,0.4); margin-bottom: 12px;
-        }
-        button:active { transform: scale(0.96); }
-
-        /* 结果展示区 */
+        .hero-subtitle { color: var(--text-main); font-size: 16px; margin-bottom: 8px; font-weight: 800; display: block; }
+        .hero-label { color: var(--primary); letter-spacing: 3px; font-size: 13px; font-weight: 700; display: block; }
+        input { display: block; width: 100%; padding: 18px; font-size: 16px; border: 2.5px solid #f1f5f9; border-radius: 18px; outline: none; background: #f8fafc; margin-bottom: 15px; text-align: center; }
+        button { display: block; width: 100%; padding: 16px; background: var(--primary); color: white; font-size: 18px; font-weight: 700; border: none; border-radius: 18px; cursor: pointer; box-shadow: 0 10px 20px -5px rgba(37,99,235,0.4); margin-bottom: 12px; transition: 0.2s; }
         .welcome-msg { color: var(--text-sub); font-size: 17px; margin: 20px 0 35px; }
-        #resNameBold { color: var(--text-main); font-weight: 900; font-size: 26px; margin: 0 4px; border-bottom: 3px solid var(--primary); }
-
-        .seat-info-box {
-            background: #f0fdf4;
-            padding: 35px 15px;
-            border-radius: 24px;
-            margin-bottom: 35px;
-            border: 2px solid #dcfce7;
-        }
-        .seat-label {
-            font-size: 16px;
-            color: var(--success);
-            display: block;
-            margin-bottom: 15px;
-            font-weight: 800;
-            letter-spacing: 2px;
-        }
-        /* 座次号醒目化 */
-        .seat-num { font-size: 52px; font-weight: 900; color: #166534; display: block; letter-spacing: 1px; }
-
+        #resNameBold { color: var(--text-main); font-weight: 900; font-size: 26px; border-bottom: 3px solid var(--primary); }
+        .seat-info-box { background: #f0fdf4; padding: 35px 15px; border-radius: 24px; margin-bottom: 35px; border: 2px solid #dcfce7; }
+        .seat-label { font-size: 16px; color: var(--success); display: block; margin-bottom: 15px; font-weight: 800; }
+        .seat-num { font-size: 52px; font-weight: 900; color: #166534; display: block; }
         .status-tip { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; }
         .error-msg { color: var(--error); font-size: 14px; margin-bottom: 15px; display: none; font-weight: 700; }
         .reset-link { margin-top: 25px; font-size: 14px; color: var(--primary); cursor: pointer; text-decoration: underline; display: inline-block; font-weight: 600; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+    <!-- 1. 签到页 -->
     <div id="signinPage" class="card" style="display: block;">
         <div class="hero-section">
             <img src="main_title.png" alt="主标题" class="hero-main-img">
@@ -125,104 +39,101 @@
         <div id="status" class="status-tip">正在同步参会名单...</div>
         <div style="margin-top: 10px;">
             <input type="text" id="nameInput" placeholder="请输入姓名进行签到" autocomplete="off">
-            <div id="errorMsg" class="error-msg">未找到您的信息，请联系现场行政</div>
-            <button id="signBtn" onclick="handleSignin()" disabled style="opacity:0.5">请稍候...</button>
+            <div id="errorMsg" class="error-msg">未找到您的信息，请重试</div>
+            <button id="signBtn" disabled style="opacity:0.5">请稍候...</button>
         </div>
         <img src="logo.png" alt="Logo" class="card-logo">
     </div>
 
+    <!-- 2. 结果页 -->
     <div id="resultPage" class="card">
         <p class="welcome-msg">欢迎您来，<span id="resNameBold">--</span></p>
         <div class="seat-info-box">
             <span class="seat-label">您的会议座次</span>
             <span class="seat-num" id="resSeat">--</span>
         </div>
-        <button style="background: var(--text-main);" onclick="showSchedule()">查看大会日程</button>
+        <button style="background: var(--text-main);" id="toScheduleBtn">查看大会日程</button>
         <span class="reset-link" onclick="location.reload()">返回重新签到</span>
         <img src="logo.png" alt="Logo" class="card-logo">
     </div>
 
+    <!-- 3. 日程页 -->
     <div id="schedulePage" class="card">
         <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 25px;">大会日程</h2>
-        <div style="text-align: left; margin: 20px 0 30px; font-size: 15px;">
-            <div style="display: flex; padding: 15px 0; border-bottom: 1px dashed #ddd;"><span style="color:var(--primary); font-weight:800; min-width:95px;">08:30-09:00</span><span>嘉宾签到入场</span></div>
-            <div style="display: flex; padding: 15px 0; border-bottom: 1px dashed #ddd;"><span style="color:var(--primary); font-weight:800; min-width:95px;">09:00-09:30</span><span>开场视频与致辞</span></div>
-            <div style="display: flex; padding: 15px 0; border-bottom: 1px dashed #ddd;"><span style="color:var(--primary); font-weight:800; min-width:95px;">09:30-11:30</span><span>2024年度总结报告</span></div>
-            <div style="display: flex; padding: 15px 0; border-bottom: 1px dashed #ddd;"><span style="color:var(--primary); font-weight:800; min-width:95px;">11:30-13:30</span><span>午休及商务午宴</span></div>
-            <div style="display: flex; padding: 15px 0; border-bottom: 1px dashed #ddd;"><span style="color:var(--primary); font-weight:800; min-width:95px;">13:30-15:30</span><span>2025战略发布会</span></div>
-            <div style="display: flex; padding: 15px 0; border-bottom: 1px dashed #ddd;"><span style="color:var(--primary); font-weight:800; min-width:95px;">15:30-17:00</span><span>颁奖盛典</span></div>
-        </div>
-        <button onclick="showResult()">返回座次信息</button>
+        <div id="scheduleContent" style="text-align: left; margin: 20px 0 30px; font-size: 15px;"></div>
+        <button id="backToResultBtn">返回座次信息</button>
         <img src="logo.png" alt="Logo" class="card-logo">
     </div>
 
     <script>
-        let seatData = {};
+        // 确保所有元素加载后再运行
+        document.addEventListener('DOMContentLoaded', function() {
+            let seatData = {};
+            const signBtn = document.getElementById('signBtn');
+            const nameInput = document.getElementById('nameInput');
+            const statusTip = document.getElementById('status');
+            const errorMsg = document.getElementById('errorMsg');
 
-        window.onload = function() {
-            // 加上随机数防止 CSV 缓存
-            fetch('list.csv?v=' + Math.random())
-                .then(response => {
-                    if (!response.ok) throw new Error('找不到名单文件 list.csv');
-                    return response.text();
+            // 载入名单逻辑
+            fetch('list.csv?v=' + Date.now())
+                .then(res => {
+                    if (!res.ok) throw new Error('找不到 list.csv');
+                    return res.text();
                 })
                 .then(text => {
-                    // 兼容处理：支持各种换行符并清洗掉 BOM 等隐藏字符
-                    const rows = text.split(/\r?\n/);
+                    const rows = text.replace(/\r/g, '').split('\n');
                     rows.forEach((row, i) => {
                         if (i === 0 || !row.trim()) return;
-                        const cols = row.split(/,|，/); // 兼容中英文逗号
+                        const cols = row.split(/[,，\t]/);
                         if (cols.length >= 2) {
-                            // 极强力清洗：去掉所有空格、隐藏字符、回车符
-                            const name = cols[0].replace(/[\uFEFF\r\n]/g, "").trim();
-                            const seat = cols[1].replace(/[\uFEFF\r\n]/g, "").trim();
-                            if (name && name !== "---") {
-                                seatData[name] = seat;
-                            }
+                            const name = cols[0].replace(/[\uFEFF]/g, "").trim();
+                            const seat = cols[1].trim();
+                            if (name && name !== "---") seatData[name] = seat;
                         }
                     });
-
-                    document.getElementById('status').innerText = "✅ 名单数据同步成功";
-                    const btn = document.getElementById('signBtn');
-                    btn.disabled = false;
-                    btn.style.opacity = "1";
-                    btn.innerText = "立即签到";
-                    console.log("名单已加载，共计 " + Object.keys(seatData).length + " 人");
+                    statusTip.innerText = "✅ 名单同步完成 (" + Object.keys(seatData).length + "人)";
+                    signBtn.disabled = false;
+                    signBtn.style.opacity = "1";
+                    signBtn.innerText = "立即签到";
                 })
                 .catch(err => {
-                    document.getElementById('status').innerText = "❌ 加载失败: " + err.message;
+                    statusTip.innerText = "❌ 加载失败: " + err.message;
                 });
-        };
 
-        function handleSignin() {
-            // 输入也进行极强力清洗：去掉所有空格
-            const inputName = document.getElementById('nameInput').value.replace(/\s+/g, "");
-            const error = document.getElementById('errorMsg');
+            // 签到逻辑
+            window.handleSignin = function() {
+                const inputName = nameInput.value.replace(/\s+/g, "");
+                if (seatData[inputName]) {
+                    document.getElementById('resNameBold').innerText = inputName;
+                    document.getElementById('resSeat').innerText = seatData[inputName];
+                    showPage('resultPage');
+                    errorMsg.style.display = 'none';
+                } else {
+                    errorMsg.style.display = 'block';
+                }
+            };
 
-            if (seatData[inputName]) {
-                document.getElementById('resNameBold').innerText = inputName;
-                document.getElementById('resSeat').innerText = seatData[inputName];
-                showResult();
-                error.style.display = 'none';
-            } else {
-                error.style.display = 'block';
-                console.log("未匹配姓名：" + inputName);
+            // 页面切换
+            function showPage(id) {
+                document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+                document.getElementById(id).style.display = 'block';
             }
-        }
 
-        function showResult() {
-            document.getElementById('signinPage').style.display = 'none';
-            document.getElementById('schedulePage').style.display = 'none';
-            document.getElementById('resultPage').style.display = 'block';
-        }
+            // 事件绑定
+            signBtn.addEventListener('click', handleSignin);
+            nameInput.addEventListener('keypress', e => { if (e.key === 'Enter') handleSignin(); });
+            document.getElementById('toScheduleBtn').addEventListener('click', () => showPage('schedulePage'));
+            document.getElementById('backToResultBtn').addEventListener('click', () => showPage('resultPage'));
 
-        function showSchedule() {
-            document.getElementById('resultPage').style.display = 'none';
-            document.getElementById('schedulePage').style.display = 'block';
-        }
-
-        document.getElementById('nameInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSignin();
+            // 填充日程内容
+            const schedule = [
+                ["08:30-09:00", "嘉宾签到入场"], ["09:00-09:30", "开场视频与致辞"],
+                ["09:30-11:30", "2024年度总结报告"], ["11:30-13:30", "午休及商务午宴"],
+                ["13:30-15:30", "2025战略发布会"], ["15:30-17:00", "颁奖盛典"]
+            ];
+            document.getElementById('scheduleContent').innerHTML = schedule.map(s =>
+                `<div style="display: flex; padding: 12px 0; border-bottom: 1px dashed #ddd;"><span style="color:var(--primary); font-weight:800; min-width:95px;">${s[0]}</span><span>${s[1]}</span></div>`
+            ).join('');
         });
     </script>
 </body>
