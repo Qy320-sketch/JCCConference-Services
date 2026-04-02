@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>会议座次实时查询</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="card">
+    <div class="title">参会座次查询</div>
+
+    <div class="input-group">
+      <input type="text" id="userName" placeholder="请输入您的姓名" autocomplete="off">
+    </div>
+
+    <button onclick="doSearch()">立即查询</button>
+
+    <div id="errorBox" class="error-box">未找到该姓名，请核对后重新输入</div>
+
+    <div id="resultBox" class="result-box">
+      <div class="result-text">
+        尊敬的 <span id="resName"></span>，您的位置：
+        <span id="resSeat" class="seat-num"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    请按座次号就坐 · 祝您参会愉快
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
