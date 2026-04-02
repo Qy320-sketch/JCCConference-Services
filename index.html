@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2025年东北分公司总结会</title>
-    <!-- 引入读取 Excel 的插件 -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         :root {
             --primary: #2563eb;
@@ -74,13 +72,12 @@
         .seat-label { font-size: 15px; color: #15803d; display: block; margin-bottom: 15px; font-weight: 700; }
         .seat-num { font-size: 46px; font-weight: 900; color: var(--success); display: block; }
 
+        .status-tip { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; }
         .error-msg { color: var(--error); font-size: 13px; margin-bottom: 15px; display: none; font-weight: 600; }
-        .loading-tip { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- 1. 签到主页 -->
     <div id="signinPage" class="card" style="display: block;">
         <div class="hero-section">
             <img src="main_title.png" alt="主标题" class="hero-main-img">
@@ -88,66 +85,63 @@
             <span class="hero-label">签到确认 · SIGN IN</span>
         </div>
 
-        <div id="loadStatus" class="loading-tip">正在同步名单数据...</div>
+        <div id="status" class="status-tip">正在同步名单...</div>
 
         <div style="margin-top: 10px;">
-            <input type="text" id="nameInput" placeholder="请输入姓名" autocomplete="off">
-            <div id="errorMsg" class="error-msg">未找到名单，请检查或联系行政</div>
-            <button id="signInBtn" onclick="handleSignin()" disabled style="opacity: 0.5;">等待数据加载</button>
+            <input type="text" id="nameInput" placeholder="请输入姓名进行签到" autocomplete="off">
+            <div id="errorMsg" class="error-msg">未找到名单信息，请重试</div>
+            <button id="signBtn" onclick="handleSignin()" disabled style="opacity:0.5">加载中...</button>
         </div>
         <img src="logo.png" alt="Logo" class="card-logo">
     </div>
 
-    <!-- 2. 结果页面 -->
     <div id="resultPage" class="card">
         <p class="welcome-msg">欢迎您来，<span id="resNameBold">--</span></p>
         <div class="seat-info-box">
             <span class="seat-label">您的会议座次</span>
             <span class="seat-num" id="resSeat">--</span>
         </div>
-        <button style="background: var(--text-main);" onclick="location.reload()">返回签到</button>
+        <button style="background: var(--text-main);" onclick="location.reload()">返回</button>
         <img src="logo.png" alt="Logo" class="card-logo">
     </div>
 
     <script>
-        let seatData = {}; // 用于存储从 Excel 解析出来的名单
+        let seatData = {};
 
-        // 页面初始化：读取 Excel
+        // 核心逻辑：读取 CSV 文本文件
         window.onload = function() {
-            // 请确保根目录下有 list.xlsx
-            fetch('list.xlsx')
-                .then(res => res.arrayBuffer())
-                .then(ab => {
-                    const workbook = XLSX.read(ab, { type: 'array' });
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    // 将 Excel 转为 JSON
-                    const data = XLSX.utils.sheet_to_json(worksheet);
-
-                    // 转换数据格式为 { "姓名": "座位" }
-                    data.forEach(item => {
-                        if(item['姓名'] && item['座位']) {
-                            seatData[item['姓名'].toString().trim()] = item['座位'].toString().trim();
+            fetch('list.csv')
+                .then(response => {
+                    if (!response.ok) throw new Error('未找到 list.csv');
+                    return response.text();
+                })
+                .then(csvText => {
+                    // 解析 CSV 文本
+                    const rows = csvText.split('\n');
+                    rows.forEach((row, i) => {
+                        if (i === 0 || !row.trim()) return; // 跳过表头和空行
+                        const cols = row.split(',');
+                        if (cols.length >= 2) {
+                            const name = cols[0].trim();
+                            const seat = cols[1].trim();
+                            seatData[name] = seat;
                         }
                     });
-
-                    // 加载完成，激活按钮
-                    document.getElementById('loadStatus').innerText = "✅ 名单已就绪";
-                    document.getElementById('signInBtn').disabled = false;
-                    document.getElementById('signInBtn').innerText = "立即签到";
-                    document.getElementById('signInBtn').style.opacity = "1";
+                    // 成功后激活按钮
+                    document.getElementById('status').innerText = "✅ 名单同步完成";
+                    const btn = document.getElementById('signBtn');
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
+                    btn.innerText = "立即签到";
                 })
                 .catch(err => {
-                    document.getElementById('loadStatus').innerText = "❌ 名单加载失败，请检查 list.xlsx";
-                    console.error(err);
+                    document.getElementById('status').innerText = "❌ 加载失败: " + err.message;
                 });
         };
 
         function handleSignin() {
-            const input = document.getElementById('nameInput');
-            const name = input.value.trim();
+            const name = document.getElementById('nameInput').value.trim();
             const error = document.getElementById('errorMsg');
-
             if (seatData[name]) {
                 document.getElementById('resNameBold').innerText = name;
                 document.getElementById('resSeat').innerText = seatData[name];
