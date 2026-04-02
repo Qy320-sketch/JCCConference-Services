@@ -43,4 +43,126 @@
             <div id="errorMsg" class="error-msg">未找到该姓名，请检查输入或联系行政</div>
             <button id="signBtn" disabled style="opacity:0.5">请稍候...</button>
         </div>
-        <img src="logo.png" alt="
+        <img src="logo.png" alt="Logo" class="card-logo">
+    </div>
+
+    <!-- 2. 结果页 -->
+    <div id="resultPage" class="card">
+        <p class="welcome-msg">欢迎您来，<span id="resNameBold">--</span></p>
+        <div class="seat-info-box">
+            <span class="seat-label">您的会议座次</span>
+            <span class="seat-num" id="resSeat">--</span>
+        </div>
+        <button style="background: var(--text-main);" id="toScheduleBtn">查看大会日程</button>
+        <span style="margin-top:20px; font-size:14px; color:var(--primary); cursor:pointer; text-decoration:underline; display:inline-block;" onclick="location.reload()">返回重新签到</span>
+        <img src="logo.png" alt="Logo" class="card-logo">
+    </div>
+
+    <!-- 3. 日程页 -->
+    <div id="schedulePage" class="card">
+        <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 25px;">大会日程</h2>
+        <div id="scheduleContent" style="text-align: left; margin: 20px 0 30px; font-size: 15px;"></div>
+        <button id="backToResultBtn">返回座次信息</button>
+        <img src="logo.png" alt="Logo" class="card-logo">
+    </div>
+
+    <script>
+        // 使用 DOMContentLoaded 确保页面元素加载完毕后再执行脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            let seatData = {};
+            const signBtn = document.getElementById('signBtn');
+            const nameInput = document.getElementById('nameInput');
+            const statusTip = document.getElementById('status');
+            const errorMsg = document.getElementById('errorMsg');
+
+            // 1. 异步加载 CSV 名单
+            fetch('list.csv?v=' + Date.now())
+                .then(res => {
+                    if (!res.ok) throw new Error('找不到名单文件 list.csv');
+                    return res.text();
+                })
+                .then(text => {
+                    // 清理隐藏字符并按行切割
+                    const rows = text.replace(/\r/g, '').split('\n');
+                    let validCount = 0;
+
+                    rows.forEach((row, i) => {
+                        if (i === 0 || !row.trim()) return; // 跳过表头和空行
+
+                        // 兼容多种分隔符：英文逗号、中文逗号、Tab、空格
+                        const cols = row.split(/[,，\t\s]+/);
+
+                        if (cols.length >= 2) {
+                            // 强力清洗姓名（去 BOM 头、去空格）
+                            const name = cols[0].replace(/[\uFEFF]/g, "").trim();
+                            const seat = cols[1].trim();
+
+                            // 排除分割线和无效字符
+                            if (name && name !== "---" && name !== "姓名") {
+                                seatData[name] = seat;
+                                validCount++;
+                            }
+                        }
+                    });
+
+                    // 更新调试信息和按钮状态
+                    statusTip.innerText = "✅ 名单同步成功 (共计 " + validCount + " 人)";
+                    signBtn.disabled = false;
+                    signBtn.style.opacity = "1";
+                    signBtn.innerText = "立即签到";
+                    console.log("名单载入成功:", seatData);
+                })
+                .catch(err => {
+                    statusTip.innerText = "❌ 加载失败: " + err.message;
+                    statusTip.style.color = "var(--error)";
+                    console.error("名单加载错误:", err);
+                });
+
+            // 2. 签到匹配逻辑
+            window.handleSignin = function() {
+                const inputName = nameInput.value.replace(/\s+/g, ""); // 去掉输入的所有空格
+
+                if (seatData[inputName]) {
+                    document.getElementById('resNameBold').innerText = inputName;
+                    document.getElementById('resSeat').innerText = seatData[inputName];
+                    showPage('resultPage');
+                    errorMsg.style.display = 'none';
+                } else {
+                    errorMsg.style.display = 'block';
+                    errorMsg.innerText = "未找到“" + inputName + "”，请联系行政";
+                }
+            };
+
+            // 3. 页面切换函数
+            function showPage(id) {
+                document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+                document.getElementById(id).style.display = 'block';
+            }
+
+            // 4. 事件监听
+            signBtn.addEventListener('click', handleSignin);
+            nameInput.addEventListener('keypress', e => {
+                if (e.key === 'Enter') handleSignin();
+            });
+            document.getElementById('toScheduleBtn').addEventListener('click', () => showPage('schedulePage'));
+            document.getElementById('backToResultBtn').addEventListener('click', () => showPage('resultPage'));
+
+            // 5. 日程数据填充
+            const schedule = [
+                ["08:30-09:00", "嘉宾签到入场"],
+                ["09:00-09:30", "开场视频与致辞"],
+                ["09:30-11:30", "2024年度总结报告"],
+                ["11:30-13:30", "午休及商务午宴"],
+                ["13:30-15:30", "2025战略发布会"],
+                ["15:30-17:00", "颁奖盛典"]
+            ];
+            document.getElementById('scheduleContent').innerHTML = schedule.map(s =>
+                `<div style="display: flex; padding: 12px 0; border-bottom: 1px dashed #ddd;">
+                    <span style="color:var(--primary); font-weight:800; min-width:95px;">${s[0]}</span>
+                    <span>${s[1]}</span>
+                </div>`
+            ).join('');
+        });
+    </script>
+</body>
+</html>
